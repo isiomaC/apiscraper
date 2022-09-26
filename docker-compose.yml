@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  # mongodb service
+  mongo_db:
+    container_name: mongodb_container
+    image: mongo:latest 
+    restart: always
+    ports:
+      - 2717:27017
+      # port on local 2717 mapping to container 27017
+    volumes:
+      - mongo_db:/data/db
+      # default mongodb volume for storing data
+
+  #express server API
+  api:
+    build: .
+    ports: 
+      - 4000:3000
+      # port on local 4000 mapping to container 3000
+    volumes: 
+      - .:/usr/src/app
+      # map current directory to WORKDIR defined in Dockerfile
+      # useful for trigerring hot reload in the container
+    environment:
+     PORT: 3000
+     MONGODB_URI: mongodb://mongo_db:27017/apiscraper
+     # To connect in container, use name of service or container name
+
+    depends_on:
+      - mongo_db
+
+# persist data even if we shut down our container
+volumes:
+  mongo_db: {}

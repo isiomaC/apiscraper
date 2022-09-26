@@ -1,0 +1,28 @@
+{
+  "name": "apiscraper",
+  "version": "1.0.0",
+  "description": "docker starter with node js and mongodb services",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "format": "prettier --write {**/,}*.js",
+    "lint": "prettier --check {**/,}*.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Isioma Anofienam",
+  "license": "MIT License",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.2",
+    "morgan": "^1.10.0",
+    "simple-node-logger": "^21.8.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
