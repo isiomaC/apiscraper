@@ -8,6 +8,9 @@ const ScrapeRequestSchema = new Schema({
     elementToSearch: {
         type: String
     },
+    selector: {
+        type: String
+    },
     snapShot:[{
         type: String
     }],

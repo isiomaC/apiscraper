@@ -23,7 +23,7 @@ services:
     volumes: 
       - .:/usr/src/app
       # map current directory to WORKDIR defined in Dockerfile
-      # useful for trigerring hot reload in the container
+      # useful for trigerring hot reload in the container while developing
     environment:
      PORT: 3000
      MONGODB_URI: mongodb://mongo_db:27017/apiscraper

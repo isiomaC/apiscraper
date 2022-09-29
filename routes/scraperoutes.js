@@ -3,6 +3,8 @@ const router = express.Router();
 
 const genericResponses = require('../utils/genericResponses')
 
+const ScrapeRouteController = require("../controller/scrapeRouteController")
+
 // const { check } = require('express-validator');
 // const { auth } =  require('../middleware/auth-service')
 
@@ -19,34 +21,11 @@ router.use((req, res, next) => {
 
 // @route GET /projects
 // @desc Get all projects..
-router.get('/scrape', (req, res, next) => {
-
-    try{
-        console.log("Get - Testing")
-        genericResponses.sendSuccess(res, {
-            message: '',
-            code: 200,
-            success: true
-        })
-    }catch(e){
-        genericResponses.sendError(res, e)
-    }
-})
+router.get('/scrape', ScrapeRouteController.getSelector)
 
 // @route POST /projects
 // @desc Post a project with preview images... imagelimit: 10
-router.post('/scrape', (req, res, next) => {
-    try{
-        console.log("Post - Testing")
-        genericResponses.sendSuccess(res, {
-            message: '',
-            code: 200,
-            success: true
-        })
-    }catch(e){
-        genericResponses.sendError(res, e)
-    }
-})
+router.post('/scrape', ScrapeRouteController.postSelector)
 
 
 module.exports = router;
