@@ -3,7 +3,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 const genericResponses = require('../utils/genericResponses')
-const stringifyCircularReference = require('../utils/helpers')
+const { stringifyCircularReference, eachNode }  = require('../utils/helpers')
 const { SELECTORTYPES } = require('../utils/selectorTypes')
 
 //INPUT
@@ -68,11 +68,11 @@ class ScrapeRouteController {
 
             console.log(`//${element}[contains(., "${text}")]`)
 
+            let returnElement, returnElementTextContent
+
             if (element){
                
                 const findEleme = $(element) 
-
-                let returnElement, returnElementTextContent
 
                 for (let h4 of findEleme ){
 

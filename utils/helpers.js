@@ -1,8 +1,7 @@
 
 const stringifyCircularReference = (object) => {
-    // stringify an object, avoiding circular structures
-    // https://stackoverflow.com/a/31557814
     var simpleObject = {};
+
     for (var prop in object ){
         if (!object.hasOwnProperty(prop)){
             continue;
@@ -45,5 +44,6 @@ function eachNode(rootNode, callback) {
 }
 
 module.exports = {
-    stringifyCircularReference
+    stringifyCircularReference,
+    eachNode
 }
