@@ -1,9 +1,8 @@
 
 const axios = require('axios')
-const cheerio = require('cheerio')
 
 const genericResponses = require('../utils/genericResponses')
-const { stringifyCircularReference, eachNode }  = require('../utils/helpers')
+const { stringifyCircularReference, eachNode, generateSelector }  = require('../utils/helpers')
 const { SELECTORTYPES } = require('../utils/selectorTypes')
 
 //INPUT
@@ -45,8 +44,7 @@ class ScrapeRouteController {
     static async postSelector(req, res, next){
 
         try{
-            console.log("Post - Testing")
-            
+
             const { text, urlSource, auth} = req.body
 
             let { element } = req.body
@@ -62,49 +60,24 @@ class ScrapeRouteController {
 
             const result = await axios.get(urlSource)
 
-            const $ = cheerio.load(result.data)
+            const selectors = generateSelector(result.data, element, text)
 
-            //query cheerio for element and
+            let responseObject = {
+                message: '',
+                code: 200,
+                success: true,
+            }
 
-            console.log(`//${element}[contains(., "${text}")]`)
-
-            let returnElement, returnElementTextContent
-
-            if (element){
-               
-                const findEleme = $(element) 
-
-                for (let h4 of findEleme ){
-
-                    for (let currentChild of h4.children){
-
-                        if (currentChild.data.startsWith(text)){
-                            returnElement = h4
-                            returnElementTextContent = currentChild
-                            break
-                        }
-                    }
-                }
-            }else{
-
-                //TODO - Handle searching through DOM for text parent
-                const findElem = $("*").text()
-
-                console.log(findElem)
-
+            if (selectors === null){
+                responseObject.message = "Text not found in urlSource"
+                responseObject.code = 404
+                responseObject.success = false
             }
             
             return genericResponses.sendSuccess(
                 res, 
-                { 
-                    message: '',
-                    code: 200,
-                    success: true,
-                },
-                { 
-                    element: JSON.parse(stringifyCircularReference(returnElement)),
-                    textContent: JSON.parse(stringifyCircularReference(returnElementTextContent))
-                }
+                responseObject,
+                selectors
             )
 
         }catch(e){
